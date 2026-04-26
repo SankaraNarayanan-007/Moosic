@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOOSIC| Ultra Premium Audio</title>
+    <link rel="stylesheet" href="glass-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <div id="auth-overlay" class="auth-wrapper">
+        <div class="glass-card auth-card">
+            <div id="login-box">
+               <div class="brand-logo">𝄞</div>
+                <h1 class="brand">MOOSIC</h1>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="user-id" placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="user-pass" placeholder="Password">
+                </div>
+                <button class="btn-primary" onclick="auth.login()">Sign In</button>
+                <p class="toggle-text">New user? <span onclick="ui.toggleAuth()">Create Account</span></p>
+            </div>
+
+            <div id="signup-box" class="hidden">
+                <div class="brand-logo">M</div>
+                <h1 class="brand">MOOSIC</h1>
+                <div class="input-group">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <input type="text" id="new-user" placeholder="Choose Username">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" id="new-pass" placeholder="Create Password">
+                </div>
+                <button class="btn-primary" onclick="auth.signup()">Register</button>
+                <p class="toggle-text">Already a member? <span onclick="ui.toggleAuth()">Login</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-app" class="hidden dashboard-layout">
+        <aside class="sidebar glass-card">
+            <div class="brand">MOOSIC</div>
+            <nav>
+                <div class="nav-item active" onclick="ui.switchTab('home', this)"><i class="fa-solid fa-house"></i> Home</div>
+                <div class="nav-item" onclick="ui.switchTab('liked', this)"><i class="fa-solid fa-heart"></i> Liked Songs</div>
+            </nav>
+            <div class="user-profile" onclick="auth.logout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="glass-nav">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-search" placeholder="Search millions of songs..." onkeyup="music.search(event)">
+                </div>
+            </header>
+
+            <div class="main-grid">
+                <section class="song-list-container">
+                    <h3 id="view-title">Discovery</h3>
+                    <div id="song-results" class="scroll-area"></div>
+                </section>
+
+                <section class="glass-card player-widget">
+                    <div class="art-container">
+                        <img id="track-art" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=500" alt="Art">
+                    </div>
+                    
+                    <div class="track-meta">
+                        <h2 id="track-title">MOOSIC Audio</h2>
+                        <p id="track-artist">Select a track to start</p>
+                    </div>
+
+                    <canvas id="waveform"></canvas>
+                    
+                    <div class="playback-controls">
+                        <button class="btn-icon" onclick="music.prev()"><i class="fa-solid fa-backward-step"></i></button>
+                        <button id="play-pause" class="btn-play" onclick="music.toggle()"><i class="fa-solid fa-play"></i></button>
+                        <button class="btn-icon" onclick="music.next()"><i class="fa-solid fa-forward-step"></i></button>
+                    </div>
+
+                    <div class="progress-box">
+                        <span id="time-current">0:00</span>
+                        <div class="progress-wrapper">
+                            <div id="progress-bar-fill"></div>
+                            <input type="range" id="progress" value="0" min="0" max="100" oninput="music.seek(this.value)">
+                        </div>
+                        <span id="time-total">0:00</span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <audio id="audio-engine" crossorigin="anonymous"></audio>
+    <script src="auth-engine.js"></script>
+    <script src="music-engine.js"></script>
+    <script src="ui-engine.js"></script>
+</body>
+</html>
