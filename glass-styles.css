@@ -2,7 +2,7 @@
 
 :root {
     --bg: #030303;
-    --accent: #00ff88;
+    --accent: #dad73a;
     --glass: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
     --text-dim: #a0a0a0;
@@ -20,7 +20,7 @@ body {
     position: fixed; 
     top: 0; 
     left: 0; 
-    width: 100%; 
+    width: 100%;
     height: 100%;
     background: radial-gradient(circle at 10% 20%, #1a1a2e 0%, transparent 50%),
                 radial-gradient(circle at 90% 80%, #16213e 0%, transparent 50%);
