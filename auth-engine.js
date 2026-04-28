@@ -5,7 +5,6 @@ const auth = {
         const p = document.getElementById('new-pass').value;
         
         if(u && e && p) {
-            // Store user info as an object
             const userData = { password: p, email: e };
             localStorage.setItem(`moosic_user_${u}`, JSON.stringify(userData));
             alert("Account Registered! Please Login.");
@@ -22,14 +21,15 @@ const auth = {
         if(rawData) {
             const userData = JSON.parse(rawData);
             if(userData.password === p) {
+                // TRACK CURRENT SESSION
+                window.currentSessionUser = u; 
+                
                 document.getElementById('auth-overlay').classList.add('hidden');
                 document.getElementById('main-app').classList.remove('hidden');
                 
-                // Initialize Session Data
                 document.getElementById('edit-username').value = u;
                 document.getElementById('display-email').innerText = userData.email;
                 
-                // Load saved avatar if exists
                 const savedAvatar = localStorage.getItem(`moosic_avatar_${u}`);
                 if(savedAvatar) document.getElementById('profile-img-display').src = savedAvatar;
                 

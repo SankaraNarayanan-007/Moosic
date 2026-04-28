@@ -19,12 +19,33 @@ const ui = {
 
     saveProfile: () => {
         const newName = document.getElementById('edit-username').value;
-        const currentName = document.getElementById('edit-username').getAttribute('data-original') || newName;
+        const oldName = window.currentSessionUser;
         
-        if (newName) {
-            // Save avatar if updated
+        if (!newName) {
+            alert("Username cannot be empty");
+            return;
+        }
+
+        // Get existing user data
+        let userData = JSON.parse(localStorage.getItem(`moosic_user_${oldName}`));
+        let userAvatar = ui.tempAvatar || localStorage.getItem(`moosic_avatar_${oldName}`);
+
+        if (newName !== oldName) {
+            // 1. Create new entries
+            localStorage.setItem(`moosic_user_${newName}`, JSON.stringify(userData));
+            if(userAvatar) localStorage.setItem(`moosic_avatar_${newName}`, userAvatar);
+
+            // 2. Delete old entries
+            localStorage.removeItem(`moosic_user_${oldName}`);
+            localStorage.removeItem(`moosic_avatar_${oldName}`);
+
+            // 3. Update session
+            window.currentSessionUser = newName;
+            alert(`Username updated to ${newName}! Use this to login next time.`);
+        } else {
+            // Just update avatar if name is the same
             if(ui.tempAvatar) {
-                localStorage.setItem(`moosic_avatar_${newName}`, ui.tempAvatar);
+                localStorage.setItem(`moosic_avatar_${oldName}`, ui.tempAvatar);
             }
             alert("Profile saved successfully!");
         }
