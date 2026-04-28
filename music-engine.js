@@ -3,6 +3,7 @@ let likedSongs = JSON.parse(localStorage.getItem('moosic_liked')) || [];
 
 const music = {
     playlist: [],
+    trendingList: [],
     currentIndex: 0,
     currentTab: 'home',
     audio: document.getElementById('audio-engine'),
@@ -11,7 +12,14 @@ const music = {
         const res = await fetch('https://itunes.apple.com/search?term=lofi&limit=50&entity=song');
         const data = await res.json();
         music.playlist = data.results;
-        ui.renderList(music.playlist);
+        ui.renderList(music.playlist, 'song-results');
+    },
+
+    loadTrending: async () => {
+        const res = await fetch('https://itunes.apple.com/search?term=trending+hits&limit=30&entity=song');
+        const data = await res.json();
+        music.trendingList = data.results;
+        ui.renderList(music.trendingList, 'trending-results');
     },
 
     search: async (e) => {
@@ -20,25 +28,26 @@ const music = {
             const res = await fetch(`https://itunes.apple.com/search?term=${query}&limit=60&entity=song`);
             const data = await res.json();
             music.playlist = data.results;
-            music.currentTab = 'home';
-            ui.renderList(music.playlist);
+            ui.switchTab('home', document.querySelector('.nav-item')); 
+            ui.renderList(music.playlist, 'song-results');
         }
     },
 
     toggleLike: (e, song) => {
         e.stopPropagation();
         const index = likedSongs.findIndex(s => s.trackId === song.trackId);
-        if (index === -1) {
-            likedSongs.push(song);
-        } else {
-            likedSongs.splice(index, 1);
-        }
+        if (index === -1) { likedSongs.push(song); } 
+        else { likedSongs.splice(index, 1); }
         localStorage.setItem('moosic_liked', JSON.stringify(likedSongs));
-        ui.renderList(music.currentTab === 'home' ? music.playlist : likedSongs);
+        ui.switchTab(music.currentTab, document.querySelector('.nav-item.active'));
     },
 
-    play: (index) => {
-        const list = music.currentTab === 'home' ? music.playlist : likedSongs;
+    play: (index, sourceTab) => {
+        let list;
+        if(sourceTab === 'home') list = music.playlist;
+        else if(sourceTab === 'trending') list = music.trendingList;
+        else list = likedSongs;
+
         if(!list[index]) return;
         music.currentIndex = index;
         const song = list[index];
@@ -51,8 +60,8 @@ const music = {
     },
 
     toggle: () => music.audio.paused ? music.audio.play() : music.audio.pause(),
-    next: () => music.play(music.currentIndex + 1),
-    prev: () => music.play(music.currentIndex - 1),
+    next: () => music.play(music.currentIndex + 1, music.currentTab),
+    prev: () => music.play(music.currentIndex - 1, music.currentTab),
     seek: (val) => music.audio.currentTime = (val / 100) * music.audio.duration,
 
     initVisualizer: () => {
@@ -60,10 +69,8 @@ const music = {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             analyser = audioCtx.createAnalyser();
             source = audioCtx.createMediaElementSource(music.audio);
-            source.connect(analyser);
-            analyser.connect(audioCtx.destination);
-            analyser.fftSize = 128;
-            music.draw();
+            source.connect(analyser); analyser.connect(audioCtx.destination);
+            analyser.fftSize = 128; music.draw();
         }
     },
 
@@ -97,7 +104,6 @@ music.audio.ontimeupdate = () => {
 };
 
 function formatTime(s) {
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
+    const m = Math.floor(s / 60); const sec = Math.floor(s % 60);
     return `${m}:${sec < 10 ? '0' : ''}${sec}`;
 }

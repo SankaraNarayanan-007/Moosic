@@ -1,22 +1,44 @@
 const auth = {
     signup: () => {
         const u = document.getElementById('new-user').value;
+        const e = document.getElementById('new-email').value;
         const p = document.getElementById('new-pass').value;
-        if(u && p) {
-            localStorage.setItem(`moosic_user_${u}`, p);
+        
+        if(u && e && p) {
+            // Store user info as an object
+            const userData = { password: p, email: e };
+            localStorage.setItem(`moosic_user_${u}`, JSON.stringify(userData));
             alert("Account Registered! Please Login.");
             ui.toggleAuth();
+        } else {
+            alert("Please fill all details.");
         }
     },
     login: () => {
         const u = document.getElementById('user-id').value;
         const p = document.getElementById('user-pass').value;
-        if(localStorage.getItem(`moosic_user_${u}`) === p && u !== "") {
-            document.getElementById('auth-overlay').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            music.loadDefaults();
+        const rawData = localStorage.getItem(`moosic_user_${u}`);
+        
+        if(rawData) {
+            const userData = JSON.parse(rawData);
+            if(userData.password === p) {
+                document.getElementById('auth-overlay').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                
+                // Initialize Session Data
+                document.getElementById('edit-username').value = u;
+                document.getElementById('display-email').innerText = userData.email;
+                
+                // Load saved avatar if exists
+                const savedAvatar = localStorage.getItem(`moosic_avatar_${u}`);
+                if(savedAvatar) document.getElementById('profile-img-display').src = savedAvatar;
+                
+                music.loadDefaults();
+            } else {
+                alert("Invalid Password");
+            }
         } else {
-            alert("Invalid Credentials");
+            alert("User not found");
         }
     },
     logout: () => location.reload()

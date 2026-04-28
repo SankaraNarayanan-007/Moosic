@@ -1,19 +1,63 @@
 const ui = {
+    tempAvatar: null,
+
     toggleAuth: () => {
         document.getElementById('login-box').classList.toggle('hidden');
         document.getElementById('signup-box').classList.toggle('hidden');
     },
 
+    handleImageUpload: (input) => {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('profile-img-display').src = e.target.result;
+                ui.tempAvatar = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    },
+
+    saveProfile: () => {
+        const newName = document.getElementById('edit-username').value;
+        const currentName = document.getElementById('edit-username').getAttribute('data-original') || newName;
+        
+        if (newName) {
+            // Save avatar if updated
+            if(ui.tempAvatar) {
+                localStorage.setItem(`moosic_avatar_${newName}`, ui.tempAvatar);
+            }
+            alert("Profile saved successfully!");
+        }
+    },
+
     switchTab: (tab, element) => {
         music.currentTab = tab;
         document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-        element.classList.add('active');
-        document.getElementById('view-title').innerText = tab === 'home' ? 'Discovery' : 'Liked Songs';
-        ui.renderList(tab === 'home' ? music.playlist : likedSongs);
+        if(element) element.classList.add('active');
+
+        document.getElementById('home-view').classList.add('hidden');
+        document.getElementById('trending-view').classList.add('hidden');
+        document.getElementById('profile-view').classList.add('hidden');
+
+        if(tab === 'home') {
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('view-title').innerText = 'Discovery';
+            ui.renderList(music.playlist, 'song-results');
+        } else if(tab === 'trending') {
+            document.getElementById('trending-view').classList.remove('hidden');
+            music.loadTrending();
+        } else if(tab === 'liked') {
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('view-title').innerText = 'Liked Songs';
+            ui.renderList(likedSongs, 'song-results');
+        } else if(tab === 'profile') {
+            document.getElementById('profile-view').classList.remove('hidden');
+        }
     },
 
-    renderList: (songs) => {
-        const container = document.getElementById('song-results');
+    renderList: (songs, targetId) => {
+        const container = document.getElementById(targetId);
+        if(!container) return;
         container.innerHTML = "";
         songs.forEach((s, i) => {
             const isLiked = likedSongs.some(ls => ls.trackId === s.trackId);
@@ -33,7 +77,7 @@ const ui = {
                     <i class="fa-solid fa-circle-play" style="color:var(--accent); font-size:1.2rem;"></i>
                 </div>
             `;
-            div.onclick = () => music.play(i);
+            div.onclick = () => music.play(i, music.currentTab);
             container.appendChild(div);
         });
     }
