@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
 :root {
-    --bg: #050a18; /* Deep Midnight Blue */
-    --accent: #ffcc33; /* Sunset Gold */
-    --glass: rgba(255, 255, 255, 0.02);
-    --glass-border: rgba(255, 255, 255, 0.07);
-    --text-dim: #8e9aaf;
+    --bg: #030303;
+    --accent: #00ff88;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-dim: #a0a0a0;
 }
 
 body {
     margin: 0; 
     font-family: 'Inter', sans-serif;
     background-color: var(--bg); 
-    color: #f8f9fa; 
+    color: #fff; 
     overflow: hidden;
 }
 
@@ -22,16 +22,15 @@ body {
     left: 0; 
     width: 100%; 
     height: 100%;
-    background: radial-gradient(circle at 15% 15%, #1b2845 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, #334155 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, #0f172a 0%, transparent 100%);
+    background: radial-gradient(circle at 10% 20%, #1a1a2e 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, #16213e 0%, transparent 50%);
     z-index: -1; 
-    filter: blur(60px);
+    filter: blur(80px);
 }
 
 .glass-card {
     background: var(--glass); 
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(25px);
     border: 1px solid var(--glass-border); 
     border-radius: 28px;
 }
@@ -42,11 +41,11 @@ body {
     letter-spacing: 6px; 
     margin-bottom: 40px; 
     text-align: center; 
-    color: var(--accent); 
+    color: var(--accent); /* Updated to Green */
 }
 
 .brand span { 
-    color: #fff; 
+    color: var(--accent); 
     font-weight: 300; 
 }
 
@@ -73,8 +72,8 @@ body {
 }
 
 .nav-item.active, .nav-item:hover { 
-    background: rgba(255, 204, 51, 0.1); 
-    color: var(--accent); 
+    background: var(--glass); 
+    color: #fff; 
 }
 
 .search-box {
@@ -87,11 +86,6 @@ body {
     border: 1px solid var(--glass-border);
     transition: 0.4s; 
     margin: 20px 30px;
-}
-
-.search-box:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(255, 204, 51, 0.2);
 }
 
 .search-box input { 
@@ -124,14 +118,13 @@ body {
     padding: 12px; 
     margin-bottom: 10px; 
     border-radius: 15px; 
-    background: rgba(255, 255, 255, 0.01); 
+    background: rgba(255,255,255,0.02); 
     transition: 0.3s; 
     cursor: pointer;
 }
 
 .song-item-premium:hover { 
-    background: rgba(255, 204, 51, 0.05); 
-    transform: translateX(5px);
+    background: rgba(255,255,255,0.08); 
 }
 
 .song-item-premium img { 
@@ -141,6 +134,7 @@ body {
     margin-right: 15px; 
 }
 
+/* Heart Styles */
 .heart-icon { 
     font-size: 1.2rem; 
     color: rgba(255, 255, 255, 0.1); 
@@ -149,8 +143,8 @@ body {
 }
 
 .heart-icon.liked { 
-    color: #ffca28; 
-    filter: drop-shadow(0 0 8px rgba(255, 202, 40, 0.6)); 
+    color: #ff4b2b; 
+    filter: drop-shadow(0 0 5px #ff4b2b); 
 }
 
 .player-widget { 
@@ -165,7 +159,6 @@ body {
     height: 280px; 
     border-radius: 20px; 
     object-fit: cover; 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 #waveform { 
@@ -178,14 +171,14 @@ body {
     position: relative; 
     width: 100%; 
     height: 6px; 
-    background: rgba(255,255,255,0.05); 
+    background: rgba(255,255,255,0.1); 
     border-radius: 10px; 
     margin: 0 15px; 
 }
 
 #progress-bar-fill { 
     height: 100%; 
-    background: linear-gradient(90deg, #ffcc33, #ffb300); 
+    background: var(--accent); 
     width: 0%; 
     border-radius: 10px; 
 }
@@ -202,17 +195,11 @@ body {
     width: 70px; 
     height: 70px; 
     border-radius: 50%; 
-    background: var(--accent); 
+    background: #fff; 
     color: #000; 
     border: none; 
     cursor: pointer; 
     font-size: 1.5rem; 
-    transition: 0.3s;
-}
-
-.btn-play:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(255, 204, 51, 0.4);
 }
 
 .btn-icon { 
@@ -224,8 +211,6 @@ body {
     padding: 10px; 
     opacity: 0.6; 
 }
-
-.btn-icon:hover { opacity: 1; color: var(--accent); }
 
 .auth-wrapper { 
     height: 100vh; 
@@ -245,13 +230,12 @@ body {
 }
 
 .input-group { 
-    background: rgba(255,255,255,0.03); 
+    background: rgba(255,255,255,0.05); 
     border-radius: 12px; 
     padding: 0 15px; 
     margin-bottom: 15px; 
     display: flex; 
     align-items: center; 
-    border: 1px solid var(--glass-border);
 }
 
 .input-group input { 
@@ -271,23 +255,21 @@ body {
     border: none; 
     font-weight: 700; 
     cursor: pointer; 
-    color: #000;
 }
 
 .hidden { 
     display: none !important; 
 }
-
 .brand-logo { 
     width: 60px; 
     height: 60px; 
-    background: var(--accent); 
-    color: #000; 
+    background: var(--accent); /* Uses your #00ff88 green */
+    color: #000; /* Black symbol for high contrast against green */
     border-radius: 15px; 
     margin: 0 auto 20px; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    font-size: 2.2rem; 
+    font-size: 2.2rem; /* Adjusted size specifically for the clef symbol */
     font-weight: normal;
 }
