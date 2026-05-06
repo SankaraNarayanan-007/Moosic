@@ -2,7 +2,8 @@
 
 :root {
     --bg: #030303;
-    --accent: #00ff88;
+    /* Changed from Green (#00ff88) to Cyber-Purple */
+    --accent: #bc13fe; 
     --glass: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
     --text-dim: #a0a0a0;
@@ -15,8 +16,9 @@ body {
 
 .mesh-gradient {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at 10% 20%, #1a1a2e 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, #16213e 0%, transparent 50%);
+    /* Updated background colors to match the purple theme */
+    background: radial-gradient(circle at 10% 20%, #1e1135 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, #0d0124 0%, transparent 50%);
     z-index: -1; filter: blur(80px);
 }
 
@@ -75,7 +77,7 @@ body {
 .profile-container { max-width: 600px; margin: 50px auto; padding: 50px; text-align: center; }
 .avatar-edit-wrapper { position: relative; width: 120px; margin: 0 auto 20px; }
 .avatar-large { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; background: var(--accent); }
-.edit-badge { position: absolute; bottom: 5px; right: 5px; background: var(--accent); color: #000; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid var(--bg); }
+.edit-badge { position: absolute; bottom: 5px; right: 5px; background: var(--accent); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid var(--bg); }
 .glass-input-large { background: transparent; border: none; border-bottom: 2px solid var(--glass-border); color: #fff; font-size: 1.8rem; font-weight: 800; text-align: center; width: 100%; outline: none; padding: 10px; }
 .glass-input-large:focus { border-color: var(--accent); }
 .setting-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--glass-border); }
@@ -86,7 +88,7 @@ body {
 .auth-card { padding: 50px; width: 400px; text-align: center; }
 .input-group { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 0 15px; margin-bottom: 15px; display: flex; align-items: center; }
 .input-group input { background: transparent; border: none; color: #fff; padding: 15px; width: 100%; outline: none; }
-.btn-primary { width: 100%; padding: 15px; border-radius: 12px; background: var(--accent); border: none; font-weight: 700; cursor: pointer; color:#000;}
+.btn-primary { width: 100%; padding: 15px; border-radius: 12px; background: var(--accent); border: none; font-weight: 700; cursor: pointer; color:#fff;}
 
 .hidden { display: none !important; }
-.brand-logo { width: 60px; height: 60px; background: var(--accent); color: #000; border-radius: 15px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
+.brand-logo { width: 60px; height: 60px; background: var(--accent); color: #fff; border-radius: 15px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
